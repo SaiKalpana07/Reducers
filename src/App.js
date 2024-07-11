@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer } from 'react';
+import FormComponent from './Components/FormComponent';
 
-function App() {
+// Define the initial state of the counter
+const initialState = { count: 0 };
+
+// Define the reducer function
+const reducer = (state, action) => {console.log("state",state)
+  console.log("action",action)
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    case 'reset':
+      return { count: 0 };
+    default:
+      throw new Error('Unknown action type');
+  }
+};
+
+const Counter = () => {
+  // Use the useReducer hook
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Count: {state.count}</h1>
+      <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+      <FormComponent />
     </div>
   );
-}
+};
 
-export default App;
+export default Counter;
